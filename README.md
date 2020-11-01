@@ -13,7 +13,7 @@ Por hora, ele só é capaz de responder apenas um grupo.
 ### Instalando
 
 * Abra o terminal na pasta de instalação.
-* Clone o repositório: ```git clone https://github.com/MuriloucoLouco/whatsapp-bot.git```
+* Clone o repositório: `git clone https://github.com/MuriloucoLouco/whatsapp-bot.git && cd whatsapp-bot`
 
 Caso você esteja no windows, execute esse comando:
 
