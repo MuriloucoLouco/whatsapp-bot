@@ -4,6 +4,8 @@ const fs = require('fs');
 const config = JSON.parse(fs.readFileSync('config.json', 'utf8'));
 const key = config.key;
 
+const piadas = JSON.parse(fs.readFileSync('piadas.json', 'utf8'));
+
 function delay(time) {
     return new Promise(resolve => { 
         setTimeout(resolve, time)
@@ -31,4 +33,9 @@ async function youtube_search(search_term) {
 	}
 }
 
-module.exports = { delay, youtube_search };
+function get_piada() {
+	piada = piadas[Math.floor(Math.random() * piadas.length)];
+	return piada;
+}
+
+module.exports = { delay, youtube_search, get_piada };

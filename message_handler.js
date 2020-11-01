@@ -1,10 +1,7 @@
 const send_message = require('./input.js');
-const { youtube_search } = require('./tools.js');
+const { youtube_search, get_piada } = require('./tools.js');
 
-async function handle_commands({ message, user, date }, page) {
-    console.log(message);
-    args = message.split(' ');
-    help = `
+const HELP = `
 /help - Mostra a ajuda;
 /say <mensagem> - Diz uma mensagem;
 /cyberpunk - Diz o tempo que falta até lançar o cyberpunk.
@@ -14,12 +11,17 @@ async function handle_commands({ message, user, date }, page) {
 /roll <número> - Gera um número aleatório entre 1 e o número.
 /f - F.
 /youtube <termo> - Pesquisa por vídeos no youtube.
+/piada - Diz uma das 1800 piadas.
 
 É só isso. Dêem ideias do que fazer.
-    `;
+`;
+
+async function handle_commands({ message, user, date }, page) {
+    console.log(message);
+    args = message.split(' ');
     switch (args[0]) {
         case '/help':
-            await send_message(help, page);
+            await send_message(HELP, page);
             break;
         case '/say':
             await send_message(args.slice(1).join(' '), page);
@@ -42,7 +44,8 @@ async function handle_commands({ message, user, date }, page) {
             'eae piranha ..  volta aki com meu lanca', 'nois ta tipo bts deixando as novinha loka  b de brabo t de traste s de safado', 'novinha voce e uma flor 😏',
             'história do meu nome: meus avós e pais perguntaram alguns nomes pro pessoal conhecido, colocaram em papéis, enfiaram num saco e fizeram um sorteio, o primeiro q saiu foi esse (Luiz)',
             'tchola', 'nois é patife 👀🔥', 'sla mano mol fita', 'porra de lol mlk vai lamber uma x0t4($)', 'silencio grupo... romeu ta mimindo...', 'acad',
-            'eh tipo um filho\neu n vo por um filho no mundo pra ele n ser fodao avassalador de novinha'];
+            'eh tipo um filho\neu n vo por um filho no mundo pra ele n ser fodao avassalador de novinha', 'u + voce + caminha quentinha + cobertor de oncinha + cuequinha boxer + eu + vc + fuc fuc = lover',
+        'Filha da puta ce eu não te comi eh que o naipe do pai vai domina sua mente'];
             await send_message(respostas[Math.floor(Math.random() * respostas.length)], page);
             break;
         case '/love':
@@ -73,6 +76,9 @@ async function handle_commands({ message, user, date }, page) {
         case '/youtube':
             url = await youtube_search(args.slice(1).join(' '));
             await send_message(url, page);
+        case '/piada':
+            piada = get_piada();
+            await send_message(piada, page);
     }
 }
 
