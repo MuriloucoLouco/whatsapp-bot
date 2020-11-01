@@ -12,7 +12,7 @@ async function get_whatsapp() {
 }
 
 async function get_qrcode(page) {
-    await page.screenshot({path: './temp/image.jpg', type: 'jpeg'});
+    await page.screenshot({path: './qrcode.jpg', type: 'jpeg'});
 
     await page.waitForSelector('._210SC');
     return page;
