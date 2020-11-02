@@ -43,8 +43,31 @@ async function go_to_chat(page, chat) {
 		delay(50);
     }
 	
-	await page.waitForSelector('.FMlAw');
-    
+	try {
+        await page.waitForSelector('.FMlAw');
+    } catch (error) {
+		console.log('Chat não carregado. Tentando novamente... Verifique que mudou o chat no config.json');
+		await page.keyboard.down('AltLeft');
+		await page.keyboard.down('ControlLeft');
+		await page.keyboard.down('Tab');
+		delay(50);
+		await page.keyboard.up('AltLeft');
+		await page.keyboard.up('ControlLeft');
+		await page.keyboard.up('Tab');
+		delay(50);
+		await page.keyboard.down('AltLeft');
+		await page.keyboard.down('ControlLeft');
+		await page.keyboard.down('ShiftLeft');
+		await page.keyboard.down('Tab');
+		delay(50);
+		await page.keyboard.up('AltLeft');
+		await page.keyboard.up('ControlLeft');
+		await page.keyboard.up('ShiftLeft');
+		await page.keyboard.up('Tab');
+		delay(50);
+    }
+	
+	await page.waitForSelector('.message-in');
     return page;
 }
 

@@ -10,8 +10,10 @@ async function get_last_message(page) {
 		try {
 			user = message_node.getElementsByClassName('FMlAw FdF4z _3Whw5')[0].textContent;
 		} catch (error) {
-			user_element = message_node.querySelector('._274yw').children;
-			user = user_element[user_element.length - 2].dataset.prePlainText.slice(20, -2);
+			console.log(error);
+			//user_element = message_node.querySelector('._274yw').children;
+			//user = user_element[user_element.length - 2].dataset.prePlainText.slice(20, -2);
+			user = 'AAAA';
 		}
 		
 		message_element = message_node.getElementsByClassName('selectable-text')[0];
@@ -35,7 +37,6 @@ async function get_last_message(page) {
 		
 		
 		message_data = { message, user, date, id };
-		console.log(message_data);
 		return message_data;
 	});
 	

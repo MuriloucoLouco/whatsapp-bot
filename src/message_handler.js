@@ -1,9 +1,10 @@
 const fs = require('fs');
 const path = require('path');
-const send_message = require('./input.js');
+const crypto = require('crypto');
+const { send_message, send_file } = require('./input.js');
 const { youtube_search, get_piada } = require('./tools.js');
 
-const HELP = fs.readFileSync(path.join(__dirname, '../db/help.txt'), 'utf8');
+const HELP = fs.readFileSync(path.join(__dirname, '../db/help.txt'), 'latin1');
 
 async function message_handler({ message, user, date }, page) {
     console.log(message);
@@ -41,14 +42,20 @@ async function message_handler({ message, user, date }, page) {
             if (args.length < 3) {
                 await send_message('Indique duas pessoas para calcular o amor.', page)
             } else {
-                percentage = Math.round(Math.random()*100);
+                hashed_1 = [...crypto.createHash('md5').update(args[1]+'l').digest('hex')].filter(letter => !('abcdef'.includes(letter))).join('').slice(0,5);
+                hashed_2 = [...crypto.createHash('md5').update(args[2]+'l').digest('hex')].filter(letter => !('abcdef'.includes(letter))).join('').slice(0,5);
+                percentage = Math.round(String(Math.abs(Number(hashed_1) + Number(hashed_2)) / 2000));
+                if (percentage > 60 && percentage < 83) percentage *= 1.2
+
                 mensagem_extra = ''
                 if (percentage >= 80) {
                     mensagem_extra = 'Vocês são o casal perfeito 💞💞!';
-                } else if (percentage < 80 && percentage >= 50) {
-                    mensagem_extra = 'Vocês podem combinar, é só querer. 🙂';
-                } else if (percentage < 50 && percentage >= 20) {
-                    mensagem_extra = 'Vocês não nasceram um para o outro, mas podem ser amigos. 😬';
+                } else if (percentage < 80 && percentage >= 60) {
+                    mensagem_extra = 'Vocês são um par em potencial!. 🙂';
+                } else if (percentage < 60 && percentage >= 40) {
+                    mensagem_extra = 'Talvez deveriam ser amigos? 😬';
+                } else if (percentage < 40 && percentage >= 20) {
+                    mensagem_extra = 'Vocês não são o melhor par. 😕';
                 } else {
                     mensagem_extra = 'Fiquem o mais longe possível! 🤬';
                 }
@@ -80,37 +87,37 @@ async function message_handler({ message, user, date }, page) {
 				if (hour >= 18 && hour < 24) {
 					await send_message('Bom dia, mas o certo não seria "boa noite"? O horário aqui é ${date}.', page);
 				}
-				else {
+				if (hour <= 12 && hour >= 0) {
 					await send_message('Bom dia.', page);
 				}
 			}
 			break;
 		case 'Boa':
 		case 'boa':
-			hour = Number('20:33'.split(':')[0]);
+			hour = Number(date.split(':')[0]);
 			if (args[1] == 'tarde' || args[1] == 'tarde.' || args[1] == 'tarde,') {
 				if (hour <= 12 && hour >= 0) {
-					await send_message('Boa tarde, mas o certo não seria "bom dia"? O horário aqui é ${date}.', page);
+					await send_message(`Boa tarde, mas o certo não seria "bom dia"? O horário aqui é ${date}.`, page);
 				}
 				if (hour >= 18 && hour < 24) {
-					await send_message('Boa tarde, mas o certo não seria "boa noite"? O horário aqui é ${date}.', page);
+					await send_message(`Boa tarde, mas o certo não seria "boa noite"? O horário aqui é ${date}.`, page);
 				}
-				else {
+				if (hour >= 12 && hour < 18) {
 					await send_message('Boa tarde.', page);
 				}
 			}
 			if (args[1] == 'noite' || args[1] == 'noite.' || args[1] == 'noite,') {
 				if (hour <= 12 && hour >= 0) {
-					await send_message('Boa noite, mas o certo não seria "bom dia"? O horário aqui é ${date}.', page);
+					await send_message(`Boa noite, mas o certo não seria "bom dia"? O horário aqui é ${date}.`, page);
 				}
 				if (hour >= 12 && hour < 18) {
-					await send_message('Boa noite, mas o certo não seria "boa tarde"? O horário aqui é ${date}.', page);
+					await send_message(`Boa noite, mas o certo não seria "boa tarde"? O horário aqui é ${date}.`, page);
 				}
-				else {
+				if (hour >= 18 && hour < 24) {
 					await send_message('Boa noite.', page);
 				}
 			}
-			break;
+            break;
     }
 }
 

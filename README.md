@@ -29,19 +29,9 @@ Por fim, instale todos os pacotes necessários:
 
 ### Criando configurações necessárias
 
-Você precisa criar um arquivo `config.json` na pasta onde o bot foi instalado.
-Dentro dele, coloque os seguintes dados:
-
-```
-{
-	"key": "",
-	"chat": "NOME DO GRUPO",
-	"headless": true
-}
-```
-
-Mude o valor `"chat"` para o nome de seu grupo.
-O valor `"key"` é sua chave de autenticação da API do youtube. É necessário para o comando `/youtube`.
+Você precisa editar o arquivo `config.json` na pasta onde o bot foi instalado.
+Dentro dele, mude o valor `"chat"` para o nome de seu grupo.
+O valor `"key"` é sua chave de autenticação da API do youtube, que é necessário para o comando `/youtube`.
 
 ## Usando
 
