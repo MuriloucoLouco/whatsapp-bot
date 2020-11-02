@@ -1,10 +1,9 @@
 const fetch = require('node-fetch');
 const fs = require('fs');
+const path = require('path');
 
-const config = JSON.parse(fs.readFileSync('config.json', 'utf8'));
-const key = config.key;
-
-const piadas = JSON.parse(fs.readFileSync('piadas.json', 'utf8'));
+const config = JSON.parse(fs.readFileSync(path.join(__dirname, '../config.json'), 'utf8'));
+const piadas = JSON.parse(fs.readFileSync(path.join(__dirname, '../db/piadas.json'), 'utf8'));
 
 function delay(time) {
     return new Promise(resolve => { 
@@ -13,11 +12,11 @@ function delay(time) {
 }
 
 async function youtube_search(search_term) {
-	if (key) {
+	if (config.key) {
 		url = 'https://youtube.com/watch?v=';
 		video_list = [];
 		
-		await fetch(`https://www.googleapis.com/youtube/v3/search?q=${search_term}&key=${key}`)
+		await fetch(`https://www.googleapis.com/youtube/v3/search?q=${search_term}&key=${config.key}`)
 		.then(res => res.json())
 		.then(obj => obj.items)
 		.then(videos => videos.forEach(video => {

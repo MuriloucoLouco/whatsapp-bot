@@ -1,0 +1,12 @@
+/help - Mostra a ajuda;
+/say <mensagem> - Diz uma mensagem;
+/cyberpunk - Diz o tempo que falta até lançar o cyberpunk.
+/bola8 - Responde uma pergunta de sim ou não.
+/luiz - Imita o Luiz.
+/love <pessoa1> <pessoa2> - Calcula o amor entre duas pessoas.
+/roll <número> - Gera um número aleatório entre 1 e o número.
+/f - F.
+/youtube <termo> - Pesquisa por vídeos no youtube.
+/piada - Diz uma das 1800 piadas.
+
+É só isso. Dêem ideias do que fazer.

@@ -1,8 +1,9 @@
 const puppeteer = require('puppeteer');
 const fs = require('fs');
+const path = require('path');
 const { delay } = require('./tools.js');
 
-const config = JSON.parse(fs.readFileSync('config.json', 'utf8'));
+const config = JSON.parse(fs.readFileSync(path.join(__dirname, '../config.json'), 'utf8'));
 
 async function get_whatsapp() {
     const browser = await puppeteer.launch({product: 'firefox', headless: config.headless});
@@ -14,13 +15,11 @@ async function get_whatsapp() {
 async function get_qrcode(page) {
     await page.screenshot({path: './qrcode.jpg', type: 'jpeg'});
 
-    await page.waitForSelector('._210SC');
+	await page.waitForSelector('._210SC');
     return page;
 }
 
 async function go_to_chat(page, chat) {
-    await page.waitForSelector('._210SC');
-
 	chat_index = await page.evaluate(name => {
 		chat_list = [];
 		[...document.getElementsByClassName('_210SC')].forEach(element => {
@@ -32,8 +31,6 @@ async function go_to_chat(page, chat) {
 			return item[1].getElementsByClassName('_3ko75')[0].title == name;
 		});
 	}, chat);
-
-	chat_nodelist = await page.$$('._3ko75');
 	
 	for (i = 0; i <= chat_index; i++) {
 		await page.keyboard.down('AltLeft');
@@ -45,6 +42,8 @@ async function go_to_chat(page, chat) {
 		await page.keyboard.up('Tab');
 		delay(50);
     }
+	
+	await page.waitForSelector('.FMlAw');
     
     return page;
 }

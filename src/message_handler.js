@@ -1,22 +1,11 @@
+const fs = require('fs');
+const path = require('path');
 const send_message = require('./input.js');
 const { youtube_search, get_piada } = require('./tools.js');
 
-const HELP = `
-/help - Mostra a ajuda;
-/say <mensagem> - Diz uma mensagem;
-/cyberpunk - Diz o tempo que falta até lançar o cyberpunk.
-/bola8 - Responde uma pergunta de sim ou não.
-/luiz - Imita o Luiz.
-/love <pessoa1> <pessoa2> - Calcula o amor entre duas pessoas.
-/roll <número> - Gera um número aleatório entre 1 e o número.
-/f - F.
-/youtube <termo> - Pesquisa por vídeos no youtube.
-/piada - Diz uma das 1800 piadas.
+const HELP = fs.readFileSync(path.join(__dirname, '../db/help.txt'), 'utf8');
 
-É só isso. Dêem ideias do que fazer.
-`;
-
-async function handle_commands({ message, user, date }, page) {
+async function message_handler({ message, user, date }, page) {
     console.log(message);
     args = message.split(' ');
     switch (args[0]) {
@@ -76,10 +65,53 @@ async function handle_commands({ message, user, date }, page) {
         case '/youtube':
             url = await youtube_search(args.slice(1).join(' '));
             await send_message(url, page);
+			break;
         case '/piada':
             piada = get_piada();
             await send_message(piada, page);
+			break;
+		case 'Bom':
+		case 'bom':
+			hour = Number(date.split(':')[0]);
+			if (args[1] == 'dia' || args[1] == 'dia.' || args[1] == 'dia,') {
+				if (hour >= 12 && hour < 18) {
+					await send_message('Bom dia, mas o certo não seria "boa tarde"? O horário aqui é ${date}.', page);
+				}
+				if (hour >= 18 && hour < 24) {
+					await send_message('Bom dia, mas o certo não seria "boa noite"? O horário aqui é ${date}.', page);
+				}
+				else {
+					await send_message('Bom dia.', page);
+				}
+			}
+			break;
+		case 'Boa':
+		case 'boa':
+			hour = Number('20:33'.split(':')[0]);
+			if (args[1] == 'tarde' || args[1] == 'tarde.' || args[1] == 'tarde,') {
+				if (hour <= 12 && hour >= 0) {
+					await send_message('Boa tarde, mas o certo não seria "bom dia"? O horário aqui é ${date}.', page);
+				}
+				if (hour >= 18 && hour < 24) {
+					await send_message('Boa tarde, mas o certo não seria "boa noite"? O horário aqui é ${date}.', page);
+				}
+				else {
+					await send_message('Boa tarde.', page);
+				}
+			}
+			if (args[1] == 'noite' || args[1] == 'noite.' || args[1] == 'noite,') {
+				if (hour <= 12 && hour >= 0) {
+					await send_message('Boa noite, mas o certo não seria "bom dia"? O horário aqui é ${date}.', page);
+				}
+				if (hour >= 12 && hour < 18) {
+					await send_message('Boa noite, mas o certo não seria "boa tarde"? O horário aqui é ${date}.', page);
+				}
+				else {
+					await send_message('Boa noite.', page);
+				}
+			}
+			break;
     }
 }
 
-module.exports = handle_commands;
+module.exports = message_handler;
