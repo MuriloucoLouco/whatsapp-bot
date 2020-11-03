@@ -11,9 +11,8 @@ async function get_last_message(page) {
 			user = message_node.getElementsByClassName('FMlAw FdF4z _3Whw5')[0].textContent;
 		} catch (error) {
 			console.log(error);
-			//user_element = message_node.querySelector('._274yw').children;
-			//user = user_element[user_element.length - 2].dataset.prePlainText.slice(20, -2);
-			user = 'AAAA';
+			user_element = message_node.querySelector('._274yw').children;
+			user = user_element[user_element.length - 2].dataset.prePlainText.slice(20, -2);
 		}
 		
 		message_element = message_node.getElementsByClassName('selectable-text')[0];

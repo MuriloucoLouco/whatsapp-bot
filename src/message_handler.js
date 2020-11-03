@@ -1,13 +1,13 @@
 const fs = require('fs');
 const path = require('path');
 const crypto = require('crypto');
-const { send_message, send_file } = require('./input.js');
+const { send_message, ban_user } = require('./input.js');
 const { youtube_search, get_piada } = require('./tools.js');
 
 const HELP = fs.readFileSync(path.join(__dirname, '../db/help.txt'), 'latin1');
 
-async function message_handler({ message, user, date }, page) {
-    console.log(message);
+async function message_handler({ message, user, date, id }, page) {
+    console.log({ message, user, date, id });
     args = message.split(' ');
     switch (args[0]) {
         case '/help':
@@ -82,10 +82,10 @@ async function message_handler({ message, user, date }, page) {
 			hour = Number(date.split(':')[0]);
 			if (args[1] == 'dia' || args[1] == 'dia.' || args[1] == 'dia,') {
 				if (hour >= 12 && hour < 18) {
-					await send_message('Bom dia, mas o certo não seria "boa tarde"? O horário aqui é ${date}.', page);
+					await send_message(`Bom dia, mas o certo não seria "boa tarde"? O horário aqui é ${date}.`, page);
 				}
 				if (hour >= 18 && hour < 24) {
-					await send_message('Bom dia, mas o certo não seria "boa noite"? O horário aqui é ${date}.', page);
+					await send_message(`Bom dia, mas o certo não seria "boa noite"? O horário aqui é ${date}.`, page);
 				}
 				if (hour <= 12 && hour >= 0) {
 					await send_message('Bom dia.', page);
