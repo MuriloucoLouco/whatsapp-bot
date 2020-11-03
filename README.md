@@ -2,13 +2,22 @@
 
 Programa para automatização de respostas no Whatsapp. Ele utiliza o puppeteer para ler e enviar mensagens do Whatsapp Web.
 
+## Funções e metas:
+
+- [x] Ler mensagens.
+- [x] Enviar mensagens.
+- [x] Banir usuários.
+- [ ] Enviar imagens.
+- [ ] Enviar áudios.
+- [ ] Enviar arquivos.
+
+Por hora, ele só é capaz de responder apenas um grupo.
+
 ## Instalação:
 
 ### Requisitos
 
 Você precisa do node instalado em sua máquina para usar o bot. [Leia mais sobre como instalar o node.](https://nodejs.org/pt-br/)
-
-Por hora, ele só é capaz de responder apenas um grupo.
 
 ### Instalando
 
