@@ -1,9 +1,10 @@
+const EventEmitter = require('events');
 const { delay } = require('./tools.js');
 
-module.exports = class Bot {
+module.exports = class Bot extends EventEmitter {
 	constructor(page) {
+		super();
 		this.page = page;
-		this.listeners = {};
 	}
 	
 	async send_message(message) {
@@ -149,30 +150,27 @@ module.exports = class Bot {
 		return message_data;
 	}
 	
-	on(method, callback) {
-		this.listeners[method] = callback;
-	}
-	
 	async start_transit_listener() {
 		var last_transit = await this.get_last_transit();
 		setInterval(async () => {
 			let new_transit = await this.get_last_transit();
 			if (last_transit.id != new_transit.id) {
-				if (this.listeners['user_left'] && new_transit.method == 'left') {
-					this.listeners['user_left'](new_transit.user);
+				console.log(new_transit);
+				switch (new_transit.method) {
+					case 'left':
+						this.emit('user_left', new_transit.user);
+						break;
+					case 'removed':
+						this.emit('user_removed', new_transit.user);
+						break;
+					case 'added':
+						this.emit('user_added', new_transit.user);
+						break;
+					case 'via_link':
+						this.emit('user_via_link', new_transit.user);
+						break;
 				}
-				if (this.listeners['user_removed'] && new_transit.method == 'removed') {
-					this.listeners['user_removed'](new_transit.user);
-				}
-				if (this.listeners['user_added'] && new_transit.method == 'added') {
-					this.listeners['user_added'](new_transit.user);
-				}
-				if (this.listeners['user_via_link'] && new_transit.method == 'via_link') {
-					this.listeners['user_via_link'](new_transit.user);
-				}
-				if (this.listeners['user_transit']) {
-					this.listeners['user_transit'](new_transit.user, new_transit.methods);
-				}
+				this.emit('user_transit', new_transit.user, new_transit.methods);
 			}
 			last_transit = await this.get_last_transit();
 		}, 50);
@@ -185,9 +183,7 @@ module.exports = class Bot {
 		setInterval(async () => {
 			let new_message = await this.get_last_message();
 			if (last_message.id != new_message.id) {
-				if (this.listeners['new_message']) {
-					this.listeners['new_message'](new_message);
-				}
+				this.emit('new_message', new_message);
 			}
 			last_message = new_message;
 		}, 50);

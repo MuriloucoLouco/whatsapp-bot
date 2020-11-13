@@ -20,8 +20,6 @@ async function start_bot(page) {
 		}
 	});
 	
-	bot.on();
-	
 	await bot.start();
 }
 
