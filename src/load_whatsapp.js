@@ -2,6 +2,7 @@ const puppeteer = require('puppeteer');
 const fs = require('fs');
 const path = require('path');
 const { delay } = require('./tools.js');
+const { exec } = require('child_process');
 
 const config = JSON.parse(fs.readFileSync(path.join(__dirname, '../config.json'), 'utf8'));
 
@@ -13,13 +14,22 @@ async function get_whatsapp() {
 }
 
 async function get_qrcode(page) {
-    await page.screenshot({path: './qrcode.jpg', type: 'jpeg'});
-
+    await page.screenshot({path: path.join(__dirname, '../qrcode/qrcode.jpg'), type: 'jpeg'});
+	await delay(1000);
+	
+	var child = exec('python qrcode/qrcode2text.py');
+	child.on('exit', () => {
+		console.log(fs.readFileSync(path.join(__dirname, '../qrcode/qrcode.txt'), 'utf8'));
+	});
+	
 	await page.waitForSelector('._210SC');
     return page;
 }
 
 async function go_to_chat(page, chat) {
+	await page.waitForSelector('img._2goTk._1Jdop._3Whw5');
+	await delay(1000);
+	
 	chat_index = await page.evaluate(name => {
 		chat_list = [];
 		[...document.getElementsByClassName('_210SC')].forEach(element => {
@@ -31,7 +41,7 @@ async function go_to_chat(page, chat) {
 			return item[1].getElementsByClassName('_3ko75')[0].title == name;
 		});
 	}, chat);
-	
+
 	for (i = 0; i <= chat_index; i++) {
 		await page.keyboard.down('AltLeft');
 		await page.keyboard.down('ControlLeft');

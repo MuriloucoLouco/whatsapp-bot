@@ -1,5 +1,5 @@
 node_modules/
 package-lock.json
-temp/
-qrcode.jpg
+qrcode/qrcode.jpg
+qrcode/qrcode.txt
 config.json

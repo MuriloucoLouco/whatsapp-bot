@@ -1,6 +1,6 @@
 const fs = require('fs');
 const { get_whatsapp, get_qrcode, go_to_chat } = require('./src/load_whatsapp.js');
-const start_bot = require('./src/bot.js');
+const start_bot = require('./src/start_bot.js');
 const { delay } = require('./src/tools.js');
 
 const config = JSON.parse(fs.readFileSync('config.json', 'utf8'));
