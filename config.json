@@ -1,5 +1,7 @@
 {
-    "key": "",
-    "chat": "NOME DO GRUPO",
-    "headless": true
+	"key": "",
+	"chat": "NOME DO GRUPO",
+	"headless": true,
+	"ban_us_number": true,
+	"ban_on_link": true
 }
