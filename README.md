@@ -37,6 +37,7 @@ Caso esteja no linux:
 Por fim, instale todos os pacotes necessários, tanto do node, quanto do python:
 
 `pip install Pillow`
+
 `npm install`
 
 ### Criando configurações necessárias
