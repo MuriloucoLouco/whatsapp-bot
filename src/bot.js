@@ -10,53 +10,53 @@ module.exports = class Bot extends EventEmitter {
 	async send_message(message) {
 		await this.page.evaluate((message) => {
 			e = new InputEvent('input', {bubbles: true});
-			message_element = document.getElementsByClassName('_3FRCZ')[1];
+			message_element = document.getElementsByClassName('_1awRl')[1];
 			message_element.textContent = message;
 			message_element.dispatchEvent(e);
-			document.querySelector('._1U1xa').click();
+			document.querySelector('._2Ujuu').click();
 		}, message);
 	}
 	
 	async ban(user) {
-		await this.page.waitForSelector('.DP7CM');
-		let title = await this.page.$('.DP7CM');
+		await this.page.waitForSelector('.YEe1t');
+		let title = await this.page.$('.YEe1t');
 		await title.click();
-		await this.page.waitForSelector('.LwCwJ');
-		let more_users = await this.page.$('._18cLH._3X7RF');
+		await this.page.waitForSelector('._2a1zO');
+		let more_users = await this.page.$('._3I3b7._1HmfW');
 		
 		if (more_users) {
 			await more_users.click();
 		}
 
 		let user_index = await this.page.evaluate((user) => {
-			return [...document.getElementsByClassName('_2kHpK')].findIndex(item => {
-				if (item.querySelector('._3ko75._5h6Y_._3Whw5')) {
-					return item.querySelector('._3ko75._5h6Y_._3Whw5').textContent == user && item.querySelector('.m61XR').innerHTML.length != 5;
+			return [...document.getElementsByClassName('_1MZWu')].findIndex(item => {
+				if (item.querySelector('._1hI5g._1XH7x._1VzZY')) {
+					return item.querySelector('._1hI5g._1XH7x._1VzZY').textContent == user && item.querySelector('._2gsiG').innerHTML.length != 5;
 				}
 			});
 		}, user);
 		
 
-		let user_list = await this.page.$$('._2kHpK');
+		let user_list = await this.page.$$('._1MZWu');
 		let user_element = user_list[user_index];
 		
 		if (user_element) {
 			user_element.click({button: 'right'});
 		
-			await this.page.waitForSelector('.Ut_N0.n-CQr');
+			await this.page.waitForSelector('._1OwwW._3oTCZ');
 			await delay(200);
-			let action_buttons = await this.page.$$('.Ut_N0.n-CQr');
+			let action_buttons = await this.page.$$('._1OwwW._3oTCZ');
 			let remove_button = action_buttons[1];
 			await remove_button.click();
 			
 			await delay(300);
-			await this.page.waitForSelector('.S7_rT.FV2Qy');
-			let remove_confirm = await this.page.$('.S7_rT.FV2Qy');
+			await this.page.waitForSelector('._30EVj.gMRg5');
+			let remove_confirm = await this.page.$('._30EVj.gMRg5');
 			await remove_confirm.click();
 			
 			await delay(600);
-			await this.page.waitForSelector('.t4a8o');
-			this.page.click('.t4a8o');
+			await this.page.waitForSelector('.hYtwT');
+			this.page.click('.hYtwT');
 		}
 	}
 	
@@ -66,7 +66,7 @@ module.exports = class Bot extends EventEmitter {
 			let id = '';
 			let method = '';
 			
-			alert_list = [...document.querySelectorAll('._2et95._1E1g0')].filter(alert => !!alert.querySelector('._5h6Y_.FdF4z._3Whw5'));
+			let alert_list = [...document.querySelectorAll('._1ij5F.KpuSa')].filter(alert => !!alert.querySelector('._1XH7x._3cwQ7._1VzZY'));
 			if (alert_list.length > 0) {
 				id = alert_list[alert_list.length - 1].parentElement.dataset.id.split('@g.us_')[1];
 				let message = alert_list[alert_list.length - 1].textContent;
@@ -83,7 +83,7 @@ module.exports = class Bot extends EventEmitter {
 					method = 'left';
 				}
 				
-				last_alert = alert_list[alert_list.length - 1].querySelectorAll('._5h6Y_.FdF4z._3Whw5');
+				last_alert = alert_list[alert_list.length - 1].querySelectorAll('._1XH7x._3cwQ7._1VzZY');
 				user_element = last_alert[last_alert.length - 1];
 				if (user_element) {
 					user = user_element.textContent;
@@ -108,19 +108,19 @@ module.exports = class Bot extends EventEmitter {
 				id = '';
 			}
 			try {
-				date = message_node.getElementsByClassName('_18lLQ')[0].textContent;
+				date = message_node.getElementsByClassName('_2JNr-')[0].textContent;
 			} catch (error) {
 				date = '';
 			}
 			
 			try {
-				user = message_node.getElementsByClassName('FMlAw FdF4z _3Whw5')[0].textContent;
+				user = message_node.getElementsByClassName('_19038 _3cwQ7 _1VzZY')[0].textContent;
 			} catch (error) {
 				try {
-					user_element = message_node.querySelector('._274yw').children;
+					user_element = message_node.querySelector('._1dB-m').children;
 					user = user_element[user_element.length - 2].dataset.prePlainText.slice(20, -2);
 				} catch (err) {
-					user = message_node.querySelector('._3UUTc').textContent;
+					console.log(err);
 				}
 			}
 			
@@ -151,7 +151,7 @@ module.exports = class Bot extends EventEmitter {
 	}
 	
 	async start_transit_listener() {
-		var last_transit = await this.get_last_transit();
+		let last_transit = await this.get_last_transit();
 		setInterval(async () => {
 			let new_transit = await this.get_last_transit();
 			if (last_transit.id != new_transit.id) {
@@ -178,7 +178,7 @@ module.exports = class Bot extends EventEmitter {
 	
 	async start_message_listener() {
 		await this.page.waitForSelector('.message-in');
-		var last_message = await this.get_last_message();
+		let last_message = await this.get_last_message();
 		
 		setInterval(async () => {
 			let new_message = await this.get_last_message();

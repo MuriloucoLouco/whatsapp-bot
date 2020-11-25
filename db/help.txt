@@ -6,7 +6,10 @@
 /love <pessoa1> <pessoa2> - Calcula o amor entre duas pessoas.
 /roll <número> - Gera um número aleatório entre 1 e o número.
 /f - F.
-/youtube <termo> - Pesquisa por vídeos no youtube.
+/youtube <termo de busca> - Pesquisa por vídeos no youtube.
 /piada - Diz uma das 1800 piadas.
+/pony <termo de busca> - Busca por pôneis.
+/r34 <termo de busca> - Busca por rule34 (NSFW).
+/cosenza - Descubra.
 
-É só isso. Dêem ideias do que fazer.
+O bot também responde mensagens de bom dia.

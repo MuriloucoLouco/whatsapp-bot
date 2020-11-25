@@ -6,7 +6,7 @@ const path = require('path');
 const config = JSON.parse(fs.readFileSync(path.join(__dirname, '../config.json'), 'utf8'));
 
 async function start_bot(page) {
-	bot = new Bot(page);
+	const bot = new Bot(page);
 	
 	await bot.send_message('Bot iniciado.');
 	

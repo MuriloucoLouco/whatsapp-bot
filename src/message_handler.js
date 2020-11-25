@@ -1,14 +1,14 @@
 const fs = require('fs');
 const path = require('path');
 const crypto = require('crypto');
-const { youtube_search, get_piada } = require('./tools.js');
+const { youtube_search, get_piada, pony_search, r34_search } = require('./tools.js');
 
 const HELP = fs.readFileSync(path.join(__dirname, '../db/help.txt'), 'latin1');
 const LUIZ = JSON.parse(fs.readFileSync(path.join(__dirname, '../db/luiz.json'), 'utf8'));
 
 async function message_handler({ message, user, date, id }, bot) {
     console.log({ message, user, date, id });
-    args = message.split(' ');
+    const args = message.split(' ');
     switch (args[0]) {
         case '/help':
             await bot.send_message(HELP);
@@ -19,7 +19,7 @@ async function message_handler({ message, user, date, id }, bot) {
             break;
 			
         case '/cyberpunk':
-            unix_until = 1607572800 - Math.round(Date.now() / 1000);
+            unix_until = 1607576400 - Math.round(Date.now() / 1000);
             days = Math.floor(unix_until / 86400);
             hours = Math.floor((unix_until - (days * 86400)) / 3600);
             minutes = Math.floor((unix_until - (days * 86400) - (hours * 3600)) / 60);
@@ -28,7 +28,7 @@ async function message_handler({ message, user, date, id }, bot) {
             break;
 			
         case '/bola8':
-            respostas = ['Sim.', 'Não.', 'Talvez.', 'Esse é o mistério da noite...', 'Com certeza.', 'Jamais.', 'Não sei, pergunte para o Murilo.', 'Sim', 'Não'];
+            const respostas = ['Sim.', 'Não.', 'Talvez.', 'Esse é o mistério da noite...', 'Com certeza.', 'Jamais.', 'Não sei, pergunte para o Murilo.', 'Sim', 'Não'];
             await bot.send_message(respostas[Math.floor(Math.random() * respostas.length)]);
             break;
 			
@@ -46,7 +46,7 @@ async function message_handler({ message, user, date, id }, bot) {
 					percentage = Math.round(String(Math.abs(Number(hashed_1) + Number(hashed_2)) / 2000));
 					if (percentage > 60 && percentage < 83) percentage *= 1.2;
 
-					mensagem_extra = ''
+					mensagem_extra = '';
 					if (percentage >= 80) {
 						mensagem_extra = 'Vocês são o casal perfeito 💞💞!';
 					} else if (percentage < 80 && percentage >= 60) {
@@ -59,8 +59,10 @@ async function message_handler({ message, user, date, id }, bot) {
 						mensagem_extra = 'Fiquem o mais longe possível! 🤬';
 					}
 					await bot.send_message(`${args[1]} ❤️ ${args[2]}: Sua compatibilidade é de ${percentage}%. ${mensagem_extra}`);
-				} else {
+				} else if (args[1] != 'e') {
 					await bot.send_message('CARALHO, SEU IMBECIL, QUAL A DIFICULDADE DE ENTENDER QUE NÃO É PARA COLOCAR "e" ENTRE OS DOIS NOMES? O CERTO É "/love nome1 nome2", SEU FILHO DE MIL PROSTITUTAS, SE VOCÊ FIZER ESSA MERDA DE NOVO EU ACABO COM A RAÇA HUMANA, SEU BOSTA DO CARALHO.');
+				} else {
+					await bot.send_message('Vai dar o cu, eu sei que você fez isso de propósito.');
 				}
 			}
             break;
@@ -84,6 +86,25 @@ async function message_handler({ message, user, date, id }, bot) {
             await bot.send_message(piada);
 			break;
 			
+		case '/pony':
+			var { view_url, tags } = await pony_search(args.slice(1).join(' '));
+			if (view_url && tags) {
+				await bot.send_message(`LINK: ${view_url}\n\nTAGS: ${tags.join(' ')}`);
+			} else {
+				await bot.send_message(`Não encontrei nada com o termo de busca "${args.slice(1).join(' ')}"`)
+			}
+			break;
+		
+		case '/cosenza':
+			r34data = await r34_search('sonic');
+			await bot.send_message(`Resultado para rule34 de sonic:\n${r34data.file_url}\n\nTags: ${r34data.tags.join(' ')}`);
+			break;
+			
+		case '/r34':
+			r34data = await r34_search(args.slice(1).join(' '));
+			await bot.send_message(`Resultado para rule34 de ${args.slice(1).join(' ')}:\n${r34data.file_url}\n\nTags: ${r34data.tags.join(' ')}`);
+			break;
+			
 		case 'Bom':
 		case 'bom':
 			hour = Number(date.split(':')[0]);
@@ -94,7 +115,7 @@ async function message_handler({ message, user, date, id }, bot) {
 				if (hour >= 18 && hour < 24) {
 					await bot.send_message(`Bom dia, mas o certo não seria "boa noite"? O horário aqui é ${date}.`);
 				}
-				if (hour <= 12 && hour >= 0) {
+				if (hour < 12 && hour >= 0) {
 					await bot.send_message('Bom dia.');
 				}
 			}
@@ -103,7 +124,7 @@ async function message_handler({ message, user, date, id }, bot) {
 		case 'boa':
 			hour = Number(date.split(':')[0]);
 			if (args[1] == 'tarde' || args[1] == 'tarde.' || args[1] == 'tarde,') {
-				if (hour <= 12 && hour >= 0) {
+				if (hour < 12 && hour >= 0) {
 					await bot.send_message(`Boa tarde, mas o certo não seria "bom dia"? O horário aqui é ${date}.`);
 				}
 				if (hour >= 18 && hour < 24) {
@@ -114,7 +135,7 @@ async function message_handler({ message, user, date, id }, bot) {
 				}
 			}
 			if (args[1] == 'noite' || args[1] == 'noite.' || args[1] == 'noite,') {
-				if (hour <= 12 && hour >= 0) {
+				if (hour < 12 && hour >= 0) {
 					await bot.send_message(`Boa noite, mas o certo não seria "bom dia"? O horário aqui é ${date}.`);
 				}
 				if (hour >= 12 && hour < 18) {
@@ -125,7 +146,6 @@ async function message_handler({ message, user, date, id }, bot) {
 				}
 			}
             break;
-			
     }
 }
 

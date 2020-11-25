@@ -8,7 +8,6 @@ const config = JSON.parse(fs.readFileSync('config.json', 'utf8'));
 async function main() {
     page = await get_whatsapp();
     console.log('Carregando QR Code...');
-    await delay(1000);
     page = await get_qrcode(page);
     console.log('QR Code carregado.')
 	
