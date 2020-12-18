@@ -18,15 +18,6 @@ async function message_handler({ message, user, date, id }, bot) {
             await bot.send_message(args.slice(1).join(' '));
             break;
 			
-        case '/cyberpunk':
-            unix_until = 1607576400 - Math.round(Date.now() / 1000);
-            days = Math.floor(unix_until / 86400);
-            hours = Math.floor((unix_until - (days * 86400)) / 3600);
-            minutes = Math.floor((unix_until - (days * 86400) - (hours * 3600)) / 60);
-            seconds = unix_until - (days * 86400) - (hours * 3600) - (minutes * 60);
-            await bot.send_message(`Faltam ${days} dias, ${hours} horas, ${minutes} minutos e ${seconds} segundos para o lançamento de cyberpunk.`);
-            break;
-			
         case '/bola8':
             const respostas = ['Sim.', 'Não.', 'Talvez.', 'Esse é o mistério da noite...', 'Com certeza.', 'Jamais.', 'Não sei, pergunte para o Murilo.', 'Sim', 'Não'];
             await bot.send_message(respostas[Math.floor(Math.random() * respostas.length)]);
@@ -43,9 +34,11 @@ async function message_handler({ message, user, date, id }, bot) {
 				if (args[2] != 'e') {
 					hashed_1 = [...crypto.createHash('md5').update(args[1]+'l').digest('hex')].filter(letter => !('abcdef'.includes(letter))).join('').slice(0,5);
 					hashed_2 = [...crypto.createHash('md5').update(args[2]+'l').digest('hex')].filter(letter => !('abcdef'.includes(letter))).join('').slice(0,5);
-					percentage = Math.round(String(Math.abs(Number(hashed_1) + Number(hashed_2)) / 2000));
+					percentage = Math.abs(Number(hashed_1) + Number(hashed_2)) / 2000;
 					if (percentage > 60 && percentage < 83) percentage *= 1.2;
-
+					
+					percentage = String(Math.round(percentage));
+					
 					mensagem_extra = '';
 					if (percentage >= 80) {
 						mensagem_extra = 'Vocês são o casal perfeito 💞💞!';

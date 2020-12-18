@@ -9,9 +9,10 @@ module.exports = class Bot extends EventEmitter {
 	
 	async send_message(message) {
 		await this.page.evaluate((message) => {
+			
 			e = new InputEvent('input', {bubbles: true});
 			message_element = document.getElementsByClassName('_1awRl')[1];
-			message_element.textContent = message;
+			message_element.textContent = message ? message : 'ERRO: RESPOSTA VAZIA.\Confira o message_handler.js';
 			message_element.dispatchEvent(e);
 			document.querySelector('._2Ujuu').click();
 		}, message);
