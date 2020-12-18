@@ -18,6 +18,15 @@ async function message_handler({ message, user, date, id }, bot) {
             await bot.send_message(args.slice(1).join(' '));
             break;
 			
+		case '/cyberpunk':
+			unix_since = Math.round(Date.now() / 1000) - 1607576400;
+			days = Math.floor(unix_since / 86400);
+			hours = Math.floor((unix_since - (days * 86400)) / 3600);
+			minutes = Math.floor((unix_since - (days * 86400) - (hours * 3600)) / 60);
+			seconds = unix_since - (days * 86400) - (hours * 3600) - (minutes * 60);
+			await bot.send_message(`Passaram ${days} dias, ${hours} horas, ${minutes} minutos e ${seconds} segundos desde a maior decepção da geração (ao todo, ${unix_since} segundos). São ${days} dias de negação do Cosenza, quando ele passará para o próximo estágio do luto, a raiva?`);
+			break;
+			
         case '/bola8':
             const respostas = ['Sim.', 'Não.', 'Talvez.', 'Esse é o mistério da noite...', 'Com certeza.', 'Jamais.', 'Não sei, pergunte para o Murilo.', 'Sim', 'Não'];
             await bot.send_message(respostas[Math.floor(Math.random() * respostas.length)]);
