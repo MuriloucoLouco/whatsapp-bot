@@ -10,7 +10,7 @@ async function get_whatsapp() {
     const browser = await puppeteer.launch({product: 'firefox', headless: config.headless});
     const page = await browser.newPage();
     await page.goto('https://web.whatsapp.com');
-    return page;
+    return { page, browser };
 }
 
 async function get_qrcode(page) {
