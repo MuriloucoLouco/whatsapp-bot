@@ -13,10 +13,11 @@ const config = JSON.parse(fs.readFileSync(path.join(__dirname, '../config.json')
 async function start_bot(page, browser) {
 	
 	process.stdin.on('keypress', async (str, key) => {
-		if (key && key.name == 'q') {
+		if ((key && key.name == 'q') || (key && key.ctrl && key.name == 'c')) {
 			console.log();
 			console.log('Desligando o bot...');
 			await bot.send_message('Desligando o bot...');
+			snake.save_settings();
 			process.exit(0);
 		}
 	});

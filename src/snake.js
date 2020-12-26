@@ -12,11 +12,22 @@ module.exports = class Snake {
 		let rawdata = fs.readFileSync(path.join(__dirname, '../db/snake.json'), 'utf8');
 		let snake_settings = JSON.parse(rawdata);
 
-        this.fruit = snake_settings.fruit ? snake_settings.fruit : [rand_number(SIZE), rand_number(SIZE)];
-        this.snake = snake_settings.snake ? snake_settings.snake : [[5, 5], [4, 5], [3, 5]];
+        this.fruit = snake_settings.fruit[0] ? snake_settings.fruit : [rand_number(SIZE), rand_number(SIZE)];
+        this.snake = snake_settings.snake[0] ? snake_settings.snake : [[5, 5], [4, 5], [3, 5]];
 		this.background = snake_settings.background;
 		this.skin = snake_settings.skin;
     }
+	
+	save_settings() {
+		let settings = {
+			"fruit": this.fruit,
+			"snake": this.snake,
+			"background" : this.background,
+			"skin" : this.skin
+		};
+		
+		fs.writeFileSync(path.join(__dirname, '../db/snake.json'), JSON.stringify(settings), 'utf8');
+	}
 	
 	change_skin(color) {
 		switch (color) {
@@ -138,9 +149,5 @@ module.exports = class Snake {
 		}
 
 		return rendered;
-	}
-
-	save_settings() {
-
 	}
 }
