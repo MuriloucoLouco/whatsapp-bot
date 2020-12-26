@@ -1,3 +1,6 @@
+const fs = require('fs');
+const path = require('path');
+
 const SIZE = 9;
 
 function rand_number(size) {
@@ -6,13 +9,13 @@ function rand_number(size) {
 
 module.exports = class Snake {
     constructor() {
-        this.fruit = [rand_number(SIZE), rand_number(SIZE)];
-        this.snake = [[5, 5], [4, 5], [3, 5]];
-		this.background = '⬜';
-		this.skin = {
-			head: '😎',
-			body: '🟨'
-		};
+		let rawdata = fs.readFileSync(path.join(__dirname, '../db/snake.json'), 'utf8');
+		let snake_settings = JSON.parse(rawdata);
+
+        this.fruit = snake_settings.fruit ? snake_settings.fruit : [rand_number(SIZE), rand_number(SIZE)];
+        this.snake = snake_settings.snake ? snake_settings.snake : [[5, 5], [4, 5], [3, 5]];
+		this.background = snake_settings.background;
+		this.skin = snake_settings.skin;
     }
 	
 	change_skin(color) {
@@ -135,5 +138,9 @@ module.exports = class Snake {
 		}
 
 		return rendered;
+	}
+
+	save_settings() {
+
 	}
 }
