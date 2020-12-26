@@ -10,8 +10,8 @@ module.exports = class Snake {
         this.snake = [[5, 5], [4, 5], [3, 5]];
 		this.background = '⬜';
 		this.skin = {
-			head: '😎';
-			body: '🟨';
+			head: '😎',
+			body: '🟨'
 		};
     }
 	
@@ -44,6 +44,17 @@ module.exports = class Snake {
 			case '🟪':
 				this.skin.head = '😈';
 				this.skin.body = '🟪';
+				break;
+		}
+	}
+
+	change_background(color) {
+		switch (color) {
+			case '⬜':
+				this.background = '⬜';
+				break;
+			case '⬛':
+				this.background = '⬛';
 				break;
 		}
 	}
