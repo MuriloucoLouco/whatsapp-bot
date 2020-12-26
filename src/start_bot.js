@@ -13,10 +13,11 @@ const config = JSON.parse(fs.readFileSync(path.join(__dirname, '../config.json')
 async function start_bot(page, browser) {
 	
 	process.stdin.on('keypress', async (str, key) => {
-		if (key && key.name == 'q') {
+		if ((key && key.name == 'q') || (key && key.ctrl && key.name == 'c')) {
 			console.log();
 			console.log('Desligando o bot...');
 			await bot.send_message('Desligando o bot...');
+			snake.save_settings();
 			process.exit(0);
 		}
 	});
@@ -38,8 +39,9 @@ async function start_bot(page, browser) {
 
 	//comando da cobra (especial)
 	bot.on('new_message', async new_message => {
-		if (new_message.message.slice(0, 6) == '/cobra' || new_message.message.slice(0, 6) == '/snake') {
-			switch (new_message.message.slice(7)) {
+		let args = new_message.message.split(' ');
+		if (args[0] == '/cobra' || args[0] == '/snake') {
+			switch (args[1]) {
 				case 'cima':
 				case 'up':
 					snake.up();
@@ -56,6 +58,15 @@ async function start_bot(page, browser) {
 				case 'right':
 					snake.right();
 					break;
+				case 'fundo':
+				case 'background':
+					snake.change_background(args[2]);
+					break;
+				case 'pele':
+				case 'skin':
+					snake.change_skin(args[2]);
+					break;
+
 			}
 			snake_text = snake.render();
 			await bot.send_message(snake_text);

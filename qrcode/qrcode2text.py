@@ -3,7 +3,11 @@ import os
 image = Image.open(os.path.join(os.path.dirname(os.path.realpath(__file__)), 'qrcode.jpg'))
 fn = lambda x: 255 if x > 220 else 0
 
-qrcode = image.crop((440, 152, 704, 416)).convert('L').point(fn, mode = '1').resize((270, 270), Image.BILINEAR)
+qrcode_coords = (438, 152, 701, 415)
+if os.name == 'nt':
+    qrcode_coords = (440, 152, 703, 415)
+
+qrcode = image.crop(qrcode_coords).convert('L').point(fn, mode = '1').resize((270, 270), Image.BILINEAR)
 list_output = []
 text_output = ''
 

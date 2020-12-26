@@ -1,0 +1,9 @@
+{
+    "fruit": [],
+    "snake": [],
+    "background": "⬜",
+    "skin": {
+        "head": "😎",
+        "body": "🟨"
+    }
+}
