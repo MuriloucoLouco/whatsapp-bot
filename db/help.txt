@@ -11,5 +11,6 @@
 /r34 <termo de busca> - Busca por rule34 (NSFW).
 /snake - Jogo da cobrinha.
 /cosenza - Descubra.
+/poll <create/answer> - Crie votações.
 
 O bot também responde mensagens de bom dia.
