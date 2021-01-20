@@ -7,8 +7,9 @@ const { exec } = require('child_process');
 const config = JSON.parse(fs.readFileSync(path.join(__dirname, '../config.json'), 'utf8'));
 
 async function get_whatsapp() {
-  const browser = await puppeteer.launch({product: 'firefox', headless: config.headless});
+  const browser = await puppeteer.launch({headless: config.headless});
   const page = await browser.newPage();
+  await page.setUserAgent('Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:84.0) Gecko/20100101 Firefox/84.0');
   await page.goto('https://web.whatsapp.com');
   return { page, browser };
 }

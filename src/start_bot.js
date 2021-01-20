@@ -35,6 +35,8 @@ async function start_bot(page, browser) {
 
     //comandos normais
     await message_handler(new_message, bot);
+    
+    if (!new_message.message) return;
 
     //comando da cobra (especial)
     let args = new_message.message.split(' ');
