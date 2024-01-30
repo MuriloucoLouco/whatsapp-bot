@@ -1,3 +1,7 @@
+# Arquivado! Procure alternativas!
+
+Não planejo voltar a programar neste repositório.
+
 # Whatsapp Bot
 
 Programa para automatização de respostas no Whatsapp. Ele utiliza o puppeteer para ler e enviar mensagens do Whatsapp Web.
